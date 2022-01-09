@@ -8,6 +8,9 @@ import java.util.Locale;
 import java.util.Map;
 
 public class SqlRuDateTimeParser implements DateTimeParser {
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MM yy");
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("d MM yy, HH:mm");
+
     private static final Map<String, String> MONTHS = Map.ofEntries(
             Map.entry("янв", "01"),
             Map.entry("фев", "02"),
@@ -26,17 +29,14 @@ public class SqlRuDateTimeParser implements DateTimeParser {
     public LocalDateTime parse(String parse) {
         if (parse.contains("сегодня")) {
             LocalDate date = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MM yy");
-            parse = parse.replace("сегодня", date.format(formatter));
+            parse = parse.replace("сегодня", date.format(dateFormatter));
         } else if (parse.contains("вчера")) {
             LocalDate date = LocalDate.now().minusDays(1);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MM yy");
-            parse = parse.replace("вчера", date.format(formatter));
+            parse = parse.replace("вчера", date.format(dateFormatter));
         } else {
         String month = parse.split(" ")[1];
         parse = parse.replace(month, MONTHS.get(month));
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MM yy, HH:mm");
-        return LocalDateTime.parse(parse, formatter);
+        return LocalDateTime.parse(parse, dateTimeFormatter);
     }
 }
