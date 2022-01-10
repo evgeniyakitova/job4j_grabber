@@ -26,7 +26,8 @@ public class SqlRuParse implements Parse {
                 Elements row = doc.select(".postslisttopic");
                 for (Element td : row) {
                     Element href = td.child(0);
-                    if (href.text().matches(".*[Jj]ava\\b.*")) {
+                    String text = href.text();
+                    if (text.matches(".*[Jj]ava\\b.*") && !text.matches(".*[Jj]ava[Ss]cript.*")) {
                         posts.add(detail(href.attr("href")));
                     }
                 }
