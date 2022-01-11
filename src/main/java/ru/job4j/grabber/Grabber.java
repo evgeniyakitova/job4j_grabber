@@ -18,7 +18,7 @@ import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 public class Grabber implements Grab {
-    Properties cfg;
+    private Properties cfg;
 
     public Grabber(Properties cfg) {
         this.cfg = cfg;
